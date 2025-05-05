@@ -1,0 +1,7 @@
+Resources and Possble packages to use for them
+
+1. Near Field Communication (NFC) -> nfc_manager
+2. Biometric Authentication -> local_auth
+Bluetooth Low Energy device scanning -> 
+Geofencing ->
+Motion Sensors -> 
