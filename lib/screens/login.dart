@@ -34,6 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // 3. Navigate to main page
         Navigator.of(context).pushReplacementNamed('/main');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Welcome ${userDoc.get('username') ?? 'User'}'),
+          ),
+        );
       } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.message ?? 'Login failed')),

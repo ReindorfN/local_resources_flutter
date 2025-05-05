@@ -2,6 +2,25 @@ Resources and Possble packages to use for them
 
 1. Near Field Communication (NFC) -> nfc_manager
 2. Biometric Authentication -> local_auth
-Bluetooth Low Energy device scanning -> 
-Geofencing ->
-Motion Sensors -> 
+3. Bluetooth Low Energy device scanning -> 
+3. Geofencing ->
+3. Motion Sensors -> 
+
+
+
+
+
+Other important stuff
+features collection:
+{
+  "title": string,
+  "iconName": string, // refer to features in models
+  "color": string, // refer to features in models
+  "subtitle": string, 
+  "description": string,
+  "codeSnippet": string,
+  "videoUrl": string,
+  "isAvailable": boolean,
+  "demoRoute": string, // refer to features in models for correct route names
+  "order": number //determines the position the card will be displayed in the homescreen.
+}
