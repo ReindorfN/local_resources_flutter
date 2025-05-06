@@ -83,6 +83,10 @@ class Feature {
         return Icons.notifications_active;
       case 'wifi':
         return Icons.wifi_tethering;
+      case 'authentication':
+        return Icons.safety_check;
+      case 'motion':
+        return Icons.motion_photos_auto;
       default:
         return Icons.error;
     }

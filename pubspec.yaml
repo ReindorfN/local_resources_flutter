@@ -50,9 +50,20 @@ dependencies:
   video_player: ^2.8.2
   chewie: ^1.7.1
 
-# Added from the code block
   flutter_highlight: ^0.7.0
-  #flutter_highlight: ^0.7.0
+
+
+# NFC manager
+  nfc_manager: ^3.3.0
+
+# Local authentication
+  local_auth: ^2.1.8
+
+# Sensors_plus package
+  sensors_plus: ^4.0.2
+
+# QR Code Scanner
+  mobile_scanner: ^3.5.6
 
 dev_dependencies:
   flutter_test:

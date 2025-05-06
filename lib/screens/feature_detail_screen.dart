@@ -4,6 +4,7 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/atom-one-dark.dart';
 import '../models/feature.dart';
+import '../routes.dart';
 
 class FeatureDetailScreen extends StatelessWidget {
   final Feature feature;
@@ -160,30 +161,30 @@ class FeatureDetailScreen extends StatelessWidget {
                   ],
 
                   // Demo Button
-                  if (feature.isAvailable && feature.demoRoute.isNotEmpty)
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, feature.demoRoute);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: feature.color,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: const Text(
-                          'Try Demo',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                  // if (feature.isAvailable && feature.demoRoute.isNotEmpty)
+                  //   SizedBox(
+                  //     width: double.infinity,
+                  //     child: ElevatedButton(
+                  //       onPressed: () {
+                  //         Navigator.pushNamed(context, feature.demoRoute);
+                  //       },
+                  //       style: ElevatedButton.styleFrom(
+                  //         backgroundColor: feature.color,
+                  //         foregroundColor: Colors.white,
+                  //         padding: const EdgeInsets.symmetric(vertical: 16),
+                  //         shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //       ),
+                  //       child: const Text(
+                  //         'Try Demo',
+                  //         style: TextStyle(
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -242,7 +243,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     return _chewieController != null
         ? Chewie(controller: _chewieController!)
         : Container(
-            color: Colors.grey[200],
+            color: const Color.fromARGB(255, 20, 20, 20),
             child: const Center(
               child: CircularProgressIndicator(),
             ),

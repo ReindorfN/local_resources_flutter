@@ -187,7 +187,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Theme.of(context).colorScheme.primary),
             title: const Text('About'),
             subtitle: const Text(
-                "Flutter Local Resources Hub\n\nVersion 1.0.0\n\nThis application is aimed at providing tutorials and demos on implementing modern mobile local resources in Flutter.\n\nDeveloper: Reindorf Narh"),
+                """Flutter Local Resources Hub\n\nVersion 1.0.0\n\nThis application is aimed at providing tutorials and demos on implementing modern mobile local resources in Flutter.\n\nDeveloper: Reindorf Narh
+                
+Next version \n Future versions of this application will include demo's to allow users test that the implementation works."""),
           ),
         ),
 

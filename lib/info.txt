@@ -3,8 +3,9 @@ Resources and Possble packages to use for them
 1. Near Field Communication (NFC) -> nfc_manager
 2. Biometric Authentication -> local_auth
 3. Bluetooth Low Energy device scanning -> 
-3. Geofencing ->
-3. Motion Sensors -> 
+4. Geofencing ->
+5. Motion Sensors -> sensors_plus
+6. QR code scanner -> 
 
 
 
