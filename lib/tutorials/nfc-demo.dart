@@ -1,7 +1,6 @@
 //Imports
 import 'package:flutter/material.dart';
-import 'package:nfc_manager/nfc_manager.dart';
-import 'dart:convert';
+import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 
 class NFCImplementation extends StatefulWidget {
   const NFCImplementation({super.key});
@@ -30,16 +29,23 @@ class _NFCImplementationState extends State<NFCImplementation> {
     super.dispose();
   }
 
-//Fnction to check if mobile device running application supports nfc
+  //Function to check if mobile device running application supports nfc
   Future<void> _checkNFCAvailability() async {
-    bool isAvailable = await NfcManager.instance.isAvailable();
-    setState(() {
-      _isAvailable = isAvailable;
-      _nfcStatus = isAvailable ? 'Ready to scan' : 'NFC is not available';
-    });
+    try {
+      NFCAvailability availability = await FlutterNfcKit.nfcAvailability;
+      setState(() {
+        _isAvailable = availability == NFCAvailability.available;
+        _nfcStatus = _isAvailable ? 'Ready to scan' : 'NFC is not available';
+      });
+    } catch (e) {
+      setState(() {
+        _isAvailable = false;
+        _nfcStatus = 'Error checking NFC availability: $e';
+      });
+    }
   }
 
-//function to start a session and detect nearby nfc tags
+  //function to start a session and detect nearby nfc tags
   Future<void> _startNFCSession(bool isWrite) async {
     if (!_isAvailable) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -55,16 +61,14 @@ class _NFCImplementationState extends State<NFCImplementation> {
     });
 
     try {
-      // Start NFC session
-      await NfcManager.instance.startSession(
-        onDiscovered: (NfcTag tag) async {
-          if (isWrite) {
-            await _writeToTag(tag);
-          } else {
-            await _readFromTag(tag);
-          }
-        },
-      );
+      // Poll for NFC tag
+      var tag = await FlutterNfcKit.poll();
+
+      if (isWrite) {
+        await _writeToTag(tag);
+      } else {
+        await _readFromTag(tag);
+      }
     } catch (e) {
       setState(() {
         _nfcStatus = 'Error: $e';
@@ -74,43 +78,17 @@ class _NFCImplementationState extends State<NFCImplementation> {
     }
   }
 
-// Functon to read information from an nfc tag
-  Future<void> _readFromTag(NfcTag tag) async {
+  // Function to read information from an nfc tag
+  Future<void> _readFromTag(NFCTag tag) async {
     try {
-      // Get NDEF records
-      Ndef? ndef = Ndef.from(tag);
-      if (ndef == null) {
-        setState(() {
-          _nfcStatus = 'Tag is not NDEF formatted';
-        });
-        return;
-      }
-
-      if (!ndef.isWritable) {
-        setState(() {
-          _nfcStatus = 'Tag is not writable';
-        });
-        return;
-      }
-
-      // Read NDEF message
-      NdefMessage? message = await ndef.read();
-      if (message == null) {
-        setState(() {
-          _nfcStatus = 'No data found on tag';
-        });
-        return;
-      }
-
-      // Process NDEF records
-      String data = '';
-      for (var record in message.records) {
-        if (record.typeNameFormat == 1 && // 1 represents NFC Well Known type
-            record.type.length == 1 &&
-            record.type.first == 0x54) {
-          // 'T' record type
-          data += utf8.decode(record.payload);
-        }
+      // Get tag information
+      String data = tag.id;
+      if (tag.standard == "ISO 14443-4 (Type B)") {
+        data += "\nType: ${tag.type}\nProtocol Info: ${tag.protocolInfo}";
+      } else if (tag.standard == "ISO 14443-4 (Type A)") {
+        data += "\nType: ${tag.type}\nATQA: ${tag.atqa}\nSAK: ${tag.sak}";
+      } else if (tag.standard == "ISO 14443-3 (Type A)") {
+        data += "\nType: ${tag.type}\nATQA: ${tag.atqa}\nSAK: ${tag.sak}";
       }
 
       setState(() {
@@ -121,7 +99,7 @@ class _NFCImplementationState extends State<NFCImplementation> {
         _nfcStatus = 'Error reading tag: $e';
       });
     } finally {
-      await NfcManager.instance.stopSession();
+      await FlutterNfcKit.finish();
       setState(() {
         _isReading = false;
       });
@@ -129,7 +107,7 @@ class _NFCImplementationState extends State<NFCImplementation> {
   }
 
   //function to write information to an nfc tag
-  Future<void> _writeToTag(NfcTag tag) async {
+  Future<void> _writeToTag(NFCTag tag) async {
     if (_writeController.text.isEmpty) {
       setState(() {
         _nfcStatus = 'Please enter text to write';
@@ -138,37 +116,19 @@ class _NFCImplementationState extends State<NFCImplementation> {
     }
 
     try {
-      Ndef? ndef = Ndef.from(tag);
-      if (ndef == null) {
-        setState(() {
-          _nfcStatus = 'Tag is not NDEF formatted';
-        });
-        return;
-      }
-
-      if (!ndef.isWritable) {
-        setState(() {
-          _nfcStatus = 'Tag is not writable';
-        });
-        return;
-      }
-
-      // Create NDEF message
-      NdefMessage message = NdefMessage([
-        NdefRecord.createText(_writeController.text),
-      ]);
-
-      // Write to tag
-      await ndef.write(message);
+      // For now, we'll just show the tag information since writing requires specific tag types
+      String info =
+          'Tag detected:\nID: ${tag.id}\nStandard: ${tag.standard}\nType: ${tag.type}';
       setState(() {
-        _nfcStatus = 'Successfully wrote: ${_writeController.text}';
+        _nfcStatus =
+            '$info\n\nNote: Writing to this tag type is not supported in this demo';
       });
     } catch (e) {
       setState(() {
-        _nfcStatus = 'Error writing to tag: $e';
+        _nfcStatus = 'Error interacting with tag: $e';
       });
     } finally {
-      await NfcManager.instance.stopSession();
+      await FlutterNfcKit.finish();
       setState(() {
         _isWriting = false;
       });

@@ -189,7 +189,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             subtitle: const Text(
                 """Flutter Local Resources Hub\n\nVersion 1.0.0\n\nThis application is aimed at providing tutorials and demos on implementing modern mobile local resources in Flutter.\n\nDeveloper: Reindorf Narh
                 
-Next version \n Future versions of this application will include demo's to allow users test that the implementation works."""),
+Next version: \n Future versions of this application will include demo's to allow users test that the implementation works."""),
           ),
         ),
 
