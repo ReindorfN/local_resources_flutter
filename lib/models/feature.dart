@@ -44,8 +44,8 @@ class Feature {
 
   static Color _getColorFromString(String colorName) {
     switch (colorName.toLowerCase()) {
-      case 'deepPurple':
-        return Colors.deepPurple;
+      case 'purple':
+        return Colors.purple;
       case 'green':
         return Colors.green;
       case 'blue':
@@ -86,7 +86,7 @@ class Feature {
       case 'authentication':
         return Icons.safety_check;
       case 'motion':
-        return Icons.motion_photos_auto;
+        return Icons.screen_rotation;
       default:
         return Icons.error;
     }

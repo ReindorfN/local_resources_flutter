@@ -20,6 +20,7 @@ class _QRScannerDemoState extends State<QRScannerDemo> {
     super.dispose();
   }
 
+  //function to detect qr codes
   void _onDetect(BarcodeCapture capture) {
     final List<Barcode> barcodes = capture.barcodes;
     for (final barcode in barcodes) {
