@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,10 +12,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Simulate loading, then navigate to login
+    // Check authentication state after a short delay
     Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/login');
+        // Check if user is already signed in
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          // User is signed in, navigate to main screen
+          Navigator.of(context).pushReplacementNamed('/main');
+        } else {
+          // No user is signed in, navigate to login screen
+          Navigator.of(context).pushReplacementNamed('/login');
+        }
       }
     });
   }
